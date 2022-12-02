@@ -1,8 +1,8 @@
 const container = document.querySelector(".container"),
   pwShowHide = document.querySelectorAll(".showHidePw"),
-  pwFields = document.querySelectorAll(".password"),
-  signUp = document.querySelector(".signup-link"),
-  login = document.querySelector(".login-link");
+  pwFields = document.querySelectorAll(".password");
+// signUp = document.querySelector(".signup-link"),
+// login = document.querySelector(".login-link");
 
 // js code to show/hide password and change icon
 pwShowHide.forEach((eyeIcon) => {
@@ -23,9 +23,9 @@ pwShowHide.forEach((eyeIcon) => {
   });
 });
 //js code to appear signup and login
-signUp.addEventListener("click", () => {
-  container.classList.add("active");
-});
-login.addEventListener("click", () => {
-  container.classList.remove("active");
-});
+// signUp.addEventListener("click", () => {
+//   container.classList.add("active");
+// });
+// login.addEventListener("click", () => {
+//   container.classList.remove("active");
+// });
