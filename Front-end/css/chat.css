@@ -66,14 +66,13 @@ body{
 #container #navBar .navList li >i{
     margin-right: 20px;
 }
-#container #navBar .navList .message{
+#container #navBar .navList .manage {
     padding-bottom: 41px;
     border-bottom: 3px solid #E5E5E5;
 }
 #container #navBar .navList .info{
     margin-top: 21px;
 }
-
 
 #container #topbar {
     position: relative;
