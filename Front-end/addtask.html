@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="./css/index.css    ">
+    <link rel="stylesheet" type="text/css" href="./css/addtask.css">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -18,13 +18,13 @@
                 <p class="title">UWC 2.0</p>  
             </div>
             <ul class="navList">
-                <li class="main select">
+                <li class="main">
                     <i class="ti-book"></i>
                     <a href="index.html">
                     Trang chủ
                     </a>
                 </li>
-                <li class="task">
+                <li class="task  select">
                     <i class="ti-pencil-alt"></i>
                     <a href="Task.html">
                         Nhiệm vụ
@@ -64,8 +64,7 @@
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Chào buổi sáng</h2>
-                <h4>Hy vọng bạn có một ngày làm việc tốt lành</h4>
+                <h2>Tạo nhiệm vụ</h2>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -87,9 +86,65 @@
             
         </div>
         <div id="content">
-            
+            <div class="content1">
+                <div class="description">
+                    <label for="">Mô tả</label>
+                    <input id="description" type="text" placeholder="    VD: Chở rác khu vực Bách Khoa - KHTN">
+                </div>
+                <div class="type">
+                    <label for="">Loại</label>
+                    <div class="typeDes">
+                        Chở rác
+                    </div>
+                </div>
+            </div>
+            <div class="content2">
+                <div class="vehicle">
+                    <label for="vehicleList">Phương tiện</label>
+                    <div class="vehicleList">
+                        <i class="ti-angle-down"></i>
+                        <ul>
+                            <li><a href="">Phương tiện 1</a></li>
+                            <li><a href="">Phương tiện 1</a></li>
+                            <li><a href="">Phương tiện 1</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="employee">
+                    <label for="">Nhân viên</label>
+                    <div class="employeeList">
+                        <i class="ti-angle-down"></i>
+                        <ul>
+                            <li><a href="">Nhân viên 1</a></li>
+                            <li><a href="">Nhân viên 1</a></li>
+                            <li><a href="">Nhân viên 1</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="content3">
+                <div class="MCP">
+                    <label for="MCPList">MCP</label>
+                    <div class="MCPList">
+                        <i class="ti-angle-down"></i>
+                        <ul>
+                            <li><a href="">MCP 1</a></li>
+                            <li><a href="">MCP 1</a></li>
+                            <li><a href="">MCP 1</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btnMCP">
+                    <a href="">Show Route</a>
+                </div>
+                <div class="btnAdd">
+                    <a href="">Tạo nhiệm vụ</a>
+                </div>
+                <div class="btnCancel">
+                    <a href="Task.html">Hủy bỏ</a>
+                </div>
+            </div>
         </div>
-        <div id="analyze"></div>
     </div>
 </body>
 </html>

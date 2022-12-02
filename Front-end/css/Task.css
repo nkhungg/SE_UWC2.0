@@ -128,3 +128,45 @@ body{
     height: 100%;
     display: inline-block;  
 }
+#content{
+    position: absolute;
+    left: 308px;
+    right: 200px;
+    margin-top: 50px;
+}
+#content .List > li{
+    margin-left:10px;
+    position: relative;
+    display:inline-block;
+    width: 173px;
+    height: 55px;
+    background: #FFFFFF;
+    border: 1px solid #6956E5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    line-height: 55px;
+    padding-left:20px;
+}
+#content .List > li .ti-angle-down{
+    position: absolute;
+    right: 0;
+    top:50%;
+    transform: translateY(-50%);
+    padding-right:10px;
+}
+#content .List > .addtask{
+    margin-left: 100px;
+    position: relative;
+    display:inline-block;
+    width: 173px;
+    height: 55px;
+    border:none;
+    background-color: #48C024;
+    line-height: 55px;
+    text-align: center;
+    padding-left:0;
+}
+#content .List > .addtask a{
+    text-decoration: none;
+    color:#fff
+}
