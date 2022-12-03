@@ -59,10 +59,14 @@
         <div id="topbar">
             <ul class="topbar_list">
                 <li class="search">
-                    <i class="bi bi-search"></i>
+                    <button>
+                        <i class="bi bi-search"></i>
+                    </button>
                 </li>
                 <li class="notify">
-                    <i class="bi bi-bell"></i>
+                    <button>
+                        <i class="bi bi-bell"></i>
+                    </button>
                 </li>
                 <li class="user">
                     <img src="./assets/img/user1.png" alt="">
@@ -71,7 +75,9 @@
                     <p class="role"><b>Quản trị viên</b></p>
                 </li>
                 <li class="logout">
-                    <i class="bi bi-box-arrow-right"></i>
+                    <button>
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
                 </li>
             </ul>
             
@@ -87,12 +93,13 @@
                     <i class="bi bi-pencil-square"></i>
                 </div>
                 <ul class="chatlist">
+                    <a href="#">
                     <li class="block active">
                         <div class="user">
                             <img src="./assets/img/user1.png" class="cover" alt="">
                         </div>
                         <div class="detail">
-                            <p class="time">10:56</p>
+                            <p class="time">12:20</p>
                             <div class="listhead">
                                 <h4>Nguyễn Văn A</h4>
                                 <p>Janitor</p>
@@ -102,7 +109,8 @@
                             </div>
                         </div>
                     </li>
-
+                    </a>
+                    <a href="#">
                     <li class="block">
                         <div class="user">
                             <img src="./assets/img/user1.png" class="cover" alt="">
@@ -118,7 +126,8 @@
                             </div>
                         </div>
                     </li>
-
+                    </a>
+                    <a href="#">
                     <li class="block">
                         <div class="user">
                             <img src="./assets/img/user1.png" class="cover" alt="">
@@ -134,22 +143,7 @@
                             </div>
                         </div>
                     </li>
-
-                    <li class="block">
-                        <div class="user">
-                            <img src="./assets/img/user1.png" class="cover" alt="">
-                        </div>
-                        <div class="detail">
-                            <p class="time">Hôm qua</p>
-                            <div class="listhead">
-                                <h4>Nguyễn Văn D</h4>
-                                <p>Janitor</p>
-                            </div>
-                            <div class="message_p">
-                                <p>Bạn đã gửi 1 ảnh.</p>
-                            </div>
-                        </div>
-                    </li>
+                    </a>
                 </ul>
             </div>
             <div class="rightside">
@@ -171,6 +165,9 @@
                         <p>Chào em <br><span>12:18</span></p>
                     </div>
                     <div class="message friend_msg">
+                        <p>Em nghe đây anh<br><span>12:18</span></p>
+                    </div>
+                    <div class="message friend_msg">
                         <p>Chuyện gì vậy anh <br><span>12:18</span></p>
                     </div>
                     <div class="message my_msg">
@@ -179,16 +176,19 @@
                     <div class="message my_msg">
                         <p>Chiều nay em nhớ xem chi tiết công việc mới. <br><span>12:20</span></p>
                     </div>
+                    
                 </div>
 
                 <!-- CHAT INPUT -->
-                <div class="chat_input">
+                <form action="#" class="chat_input">
                     
                 <!-- <ion-icon name="happy-outline"></ion-icon> -->
                     <input type="text" placeholder="Nhập văn bản">
-                    <i class="bi bi-image"></i>
-                    <i class="bi bi-send-fill"></i>
-                </div>
+                    <!-- <i class="bi bi-image"></i> -->
+                    <button class="send_message">
+                        <i class="bi bi-telegram"></i>
+                    </button>
+                </form>
             </div>
         </div>
         <div id="analyze"></div>
