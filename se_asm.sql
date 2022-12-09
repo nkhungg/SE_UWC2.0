@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2022 at 03:33 AM
+-- Generation Time: Dec 09, 2022 at 10:47 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `se_asm`
+-- Database: `se_asm2`
 --
 
 -- --------------------------------------------------------
@@ -81,7 +81,7 @@ INSERT INTO `employee` (`username`, `password`, `name`, `role`, `status`, `email
 --
 
 CREATE TABLE `mcp` (
-  `id` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
   `capacity` int(10) DEFAULT NULL,
   `current` int(10) NOT NULL,
   `status` enum('full','available') DEFAULT 'available',
@@ -93,10 +93,11 @@ CREATE TABLE `mcp` (
 --
 
 INSERT INTO `mcp` (`id`, `capacity`, `current`, `status`, `location`) VALUES
-('9001', 100, 75, 'available', 'KTX DHQG TPHCM'),
-('9002', 120, 110, 'full', 'Dai hoc Bach khoa TPHCM'),
-('9003', 80, 75, 'full', 'Suoi Tien'),
-('9004', 100, 20, 'available', 'Dai hoc SPKT TPHCM');
+(9001, 100, 75, 'available', 'KTX DHQG TPHCM'),
+(9002, 120, 110, 'full', 'Dai hoc Bach khoa TPHCM'),
+(9003, 80, 75, 'full', 'Suoi Tien'),
+(9004, 100, 20, 'available', 'Dai hoc SPKT TPHCM'),
+(9005, 150, 10, 'available', 'Dam Sen');
 
 -- --------------------------------------------------------
 
@@ -105,11 +106,11 @@ INSERT INTO `mcp` (`id`, `capacity`, `current`, `status`, `location`) VALUES
 --
 
 CREATE TABLE `task_collector` (
-  `id` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `time` datetime DEFAULT addtime(curtime(),'1:0:0'),
   `emp_username` varchar(50) DEFAULT NULL,
-  `mcp_id` varchar(50) DEFAULT NULL
+  `mcp_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -117,8 +118,8 @@ CREATE TABLE `task_collector` (
 --
 
 INSERT INTO `task_collector` (`id`, `description`, `time`, `emp_username`, `mcp_id`) VALUES
-('10001', 'MCP day', '2022-12-07 10:00:00', 'khanhhung', '9002'),
-('10002', 'MCP day', '2022-12-07 19:00:00', 'huypham', '9003');
+(10001, 'MCP day', '2022-12-07 10:00:00', 'khanhhung', 9002),
+(10002, 'MCP day', '2022-12-07 19:00:00', 'huypham', 9003);
 
 -- --------------------------------------------------------
 
@@ -127,7 +128,7 @@ INSERT INTO `task_collector` (`id`, `description`, `time`, `emp_username`, `mcp_
 --
 
 CREATE TABLE `task_janitor` (
-  `id` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `time` datetime DEFAULT addtime(curtime(),'1:0:0'),
   `emp_username` varchar(50) DEFAULT NULL,
@@ -139,8 +140,8 @@ CREATE TABLE `task_janitor` (
 --
 
 INSERT INTO `task_janitor` (`id`, `description`, `time`, `emp_username`, `area`) VALUES
-('20001', 'Thu gom rac', '2022-12-07 16:00:00', 'hoainam', 'Suoi Tien'),
-('20002', 'Thu gom rac', '2022-12-07 17:30:00', 'luong', 'Dai hoc Bach khoa TPHCM');
+(20001, 'Thu gom rac', '2022-12-07 16:00:00', 'hoainam', 'Suoi Tien'),
+(20002, 'Thu gom rac', '2022-12-07 17:30:00', 'luong', 'Dai hoc Bach khoa TPHCM');
 
 -- --------------------------------------------------------
 
@@ -202,10 +203,10 @@ CREATE TABLE `vehicle` (
 --
 
 INSERT INTO `vehicle` (`id`, `type`, `status`) VALUES
-('1001', 'truck', 'free'),
+('1001', 'truck', 'in_use'),
 ('1002', 'truck', 'free'),
-('1003', 'truck', 'free'),
-('1004', 'truck', 'in_use'),
+('1003', 'truck', 'in_use'),
+('1004', 'truck', 'free'),
 ('2001', 'troller', 'free'),
 ('2002', 'troller', 'in_use'),
 ('2003', 'troller', 'in_use'),
@@ -267,6 +268,28 @@ ALTER TABLE `truck`
 --
 ALTER TABLE `vehicle`
   ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `mcp`
+--
+ALTER TABLE `mcp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9006;
+
+--
+-- AUTO_INCREMENT for table `task_collector`
+--
+ALTER TABLE `task_collector`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10003;
+
+--
+-- AUTO_INCREMENT for table `task_janitor`
+--
+ALTER TABLE `task_janitor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20003;
 
 --
 -- Constraints for dumped tables
