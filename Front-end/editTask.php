@@ -1,14 +1,42 @@
+<?php
+    $edit=$_GET['ID'];
+    require_once 'connection.php';
+    if($edit[0]==1){
+        $editEmp="SELECT * from task_collector where id=$edit";
+    }else{
+        $editEmp="SELECT * from task_janitor where id=$edit";
+    }
+    $result=mysqli_query($conn,$editEmp);
+    $row=mysqli_fetch_assoc($result);
+    if($edit[0]==1){
+        $area='mcp_id';
+    }else{
+        $area='area';
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="./css/Task.css    ">
+    <title>Nhiệm vụ</title>
+    <link rel="stylesheet" type="text/css" href="./css/bar.css">
+    <link rel="stylesheet" type="text/css" href="./css/editTask.css">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <div id="container">
@@ -64,7 +92,7 @@
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Quản lý nhiệm vụ</h2>
+                <h2>Sửa nhiệm vụ</h2>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -86,19 +114,29 @@
             
         </div>
         <div id="content">
-            <ul class="List">
-                <li class="Vehicle">Chuyến xe<i class="ti-angle-down"></i></li>
-                <li class="Address1">Quận<i class="ti-angle-down"></i></li>
-                <li class="Address2">Phường<i class="ti-angle-down"></i></li>
-                <li class="Status">Trạng thái<i class="ti-angle-down"></i></li>
-                <li class="addtask">
-                <a href="addtask.html">Tạo nhiệm vụ</a>    
-                </li>
-            </ul>
+        <h3 class="title">ID: <?php echo $edit;?></h3>
+        <form action="updateTask.php" method="post">
+            <input type="hidden" name="id" value="<?php echo $edit?>" id="">
+        <div class="form-group">
+            <label for="thoigian">Mô tả</label>
+            <input  class="form-control" id="des" name="des" value ="<?php echo $row['description']?>">
         </div>
-        <div id="analyze">
-            
+        <div class="form-group">
+            <label for="voucher">Thời gian</label>
+            <input class="form-control" id="time" name="time" value ="<?php echo $row['time']?>">
+        </div>
+        <div class="form-group">
+            <label for="state">Tên nhân viên</label>
+            <input class="form-control" id="name" name="name" value ="<?php echo $row['emp_username']?>">
+        </div><div class="form-group">
+            <label for="state">Khu vực / MCP ID</label>
+            <input class="form-control" id="area" name="area" value ="<?php echo $row[$area]?>">
+        </div>
+        <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
+        <a href="Task.php" class="btn ">cancel</a>
+        </form>
         </div>
     </div>
+    
 </body>
 </html>
