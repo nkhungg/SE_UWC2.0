@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2022 at 10:47 AM
+-- Generation Time: Dec 10, 2022 at 11:08 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `se_asm2`
+-- Database: `se_asm`
 --
 
 -- --------------------------------------------------------
@@ -66,7 +66,7 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`username`, `password`, `name`, `role`, `status`, `email`, `phone_num`) VALUES
-('congthanh', '123', 'Truong Cong Thanh', 'collector', 'in_work', 'thanhcong@gmail.com', 90126),
+('congthanh', '123', 'Truong Cong Thanh', 'collector', 'free', 'thanhcong@gmail.com', 90126),
 ('duongnghia', '123', 'Duong Duc Nghia', 'janitor', 'free', 'nghia@gmail.com', 90120),
 ('hoainam', '123', 'Nguyen Hoai Nam', 'janitor', 'in_work', 'nam@gmail.com', 90323),
 ('huypham', '123', 'Pham Viet Huy', 'collector', 'free', 'huypham@gmail.com', 90103),
@@ -102,6 +102,19 @@ INSERT INTO `mcp` (`id`, `capacity`, `current`, `status`, `location`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `src_user` varchar(50) NOT NULL,
+  `des_user` varchar(50) NOT NULL,
+  `message` varchar(1000) NOT NULL,
+  `time` datetime DEFAULT curtime()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `task_collector`
 --
 
@@ -118,8 +131,10 @@ CREATE TABLE `task_collector` (
 --
 
 INSERT INTO `task_collector` (`id`, `description`, `time`, `emp_username`, `mcp_id`) VALUES
-(10001, 'MCP day', '2022-12-07 10:00:00', 'khanhhung', 9002),
-(10002, 'MCP day', '2022-12-07 19:00:00', 'huypham', 9003);
+(10002, 'MCP day', '2022-12-07 19:00:00', 'huypham', 9003),
+(10007, '', '2022-12-09 18:20:00', 'congthanh', 9002),
+(10008, '', '2022-12-09 22:20:00', 'congthanh', 9003),
+(10009, '', '2022-12-20 12:33:00', 'congthanh', 9002);
 
 -- --------------------------------------------------------
 
@@ -140,7 +155,6 @@ CREATE TABLE `task_janitor` (
 --
 
 INSERT INTO `task_janitor` (`id`, `description`, `time`, `emp_username`, `area`) VALUES
-(20001, 'Thu gom rac', '2022-12-07 16:00:00', 'hoainam', 'Suoi Tien'),
 (20002, 'Thu gom rac', '2022-12-07 17:30:00', 'luong', 'Dai hoc Bach khoa TPHCM');
 
 -- --------------------------------------------------------
@@ -185,6 +199,17 @@ INSERT INTO `truck` (`truck_id`, `fuel`) VALUES
 ('1002', 70),
 ('1003', 70),
 ('1004', 85);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_chat`
+--
+
+CREATE TABLE `user_chat` (
+  `username` varchar(50) NOT NULL,
+  `socket_id` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -237,6 +262,13 @@ ALTER TABLE `mcp`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`src_user`,`des_user`),
+  ADD KEY `des_user` (`des_user`);
+
+--
 -- Indexes for table `task_collector`
 --
 ALTER TABLE `task_collector`
@@ -264,6 +296,12 @@ ALTER TABLE `truck`
   ADD PRIMARY KEY (`truck_id`);
 
 --
+-- Indexes for table `user_chat`
+--
+ALTER TABLE `user_chat`
+  ADD PRIMARY KEY (`username`);
+
+--
 -- Indexes for table `vehicle`
 --
 ALTER TABLE `vehicle`
@@ -283,7 +321,7 @@ ALTER TABLE `mcp`
 -- AUTO_INCREMENT for table `task_collector`
 --
 ALTER TABLE `task_collector`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10003;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10010;
 
 --
 -- AUTO_INCREMENT for table `task_janitor`
@@ -301,6 +339,13 @@ ALTER TABLE `task_janitor`
 ALTER TABLE `assign_vehicle`
   ADD CONSTRAINT `assign_vehicle_ibfk_1` FOREIGN KEY (`emp_username`) REFERENCES `employee` (`username`),
   ADD CONSTRAINT `assign_vehicle_ibfk_2` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`id`);
+
+--
+-- Constraints for table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`src_user`) REFERENCES `employee` (`username`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`des_user`) REFERENCES `employee` (`username`);
 
 --
 -- Constraints for table `task_collector`
@@ -326,6 +371,12 @@ ALTER TABLE `troller`
 --
 ALTER TABLE `truck`
   ADD CONSTRAINT `truck_ibfk_1` FOREIGN KEY (`truck_id`) REFERENCES `vehicle` (`id`);
+
+--
+-- Constraints for table `user_chat`
+--
+ALTER TABLE `user_chat`
+  ADD CONSTRAINT `user_chat_ibfk_1` FOREIGN KEY (`username`) REFERENCES `employee` (`username`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
