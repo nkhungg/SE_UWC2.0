@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2022 at 11:08 AM
+-- Generation Time: Dec 10, 2022 at 05:29 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -56,7 +56,7 @@ CREATE TABLE `employee` (
   `password` varchar(50) DEFAULT '123',
   `name` varchar(50) DEFAULT NULL,
   `role` enum('janitor','collector') DEFAULT NULL,
-  `status` enum('free','in_work') NOT NULL DEFAULT 'free',
+  `status` enum('assigned','unassigned') NOT NULL DEFAULT 'unassigned',
   `email` varchar(50) DEFAULT NULL,
   `phone_num` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -66,13 +66,13 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`username`, `password`, `name`, `role`, `status`, `email`, `phone_num`) VALUES
-('congthanh', '123', 'Truong Cong Thanh', 'collector', 'free', 'thanhcong@gmail.com', 90126),
-('duongnghia', '123', 'Duong Duc Nghia', 'janitor', 'free', 'nghia@gmail.com', 90120),
-('hoainam', '123', 'Nguyen Hoai Nam', 'janitor', 'in_work', 'nam@gmail.com', 90323),
-('huypham', '123', 'Pham Viet Huy', 'collector', 'free', 'huypham@gmail.com', 90103),
-('khanhhung', '123', 'Nguyen Khanh Hung', 'collector', 'free', 'khanhhung@gmail.com', 90123),
-('luong', '123', 'Hoang Luong', 'janitor', 'free', 'luonghoang@gmail.com', 90127),
-('trantien', '123', 'Tran Tien', 'collector', 'in_work', 'tien@gmail.com', 90163);
+('congthanh', '123', 'Truong Cong Thanh', 'collector', 'unassigned', 'thanhcong@gmail.com', 90126),
+('duongnghia', '123', 'Duong Duc Nghia', 'janitor', 'assigned', 'nghia@gmail.com', 90120),
+('hoainam', '123', 'Nguyen Hoai Nam', 'janitor', 'assigned', 'nam@gmail.com', 90323),
+('huypham', '123', 'Pham Viet Huy', 'collector', 'unassigned', 'huypham@gmail.com', 90103),
+('khanhhung', '123', 'Nguyen Khanh Hung', 'collector', 'unassigned', 'khanhhung@gmail.com', 90123),
+('luong', '123', 'Hoang Luong', 'janitor', 'assigned', 'luonghoang@gmail.com', 90127),
+('trantien', '123', 'Tran Tien', 'collector', 'unassigned', 'tien@gmail.com', 90163);
 
 -- --------------------------------------------------------
 
@@ -131,10 +131,7 @@ CREATE TABLE `task_collector` (
 --
 
 INSERT INTO `task_collector` (`id`, `description`, `time`, `emp_username`, `mcp_id`) VALUES
-(10002, 'MCP day', '2022-12-07 19:00:00', 'huypham', 9003),
-(10007, '', '2022-12-09 18:20:00', 'congthanh', 9002),
-(10008, '', '2022-12-09 22:20:00', 'congthanh', 9003),
-(10009, '', '2022-12-20 12:33:00', 'congthanh', 9002);
+(10018, '', '2022-12-15 23:09:00', 'congthanh', 9002);
 
 -- --------------------------------------------------------
 
@@ -149,13 +146,6 @@ CREATE TABLE `task_janitor` (
   `emp_username` varchar(50) DEFAULT NULL,
   `area` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `task_janitor`
---
-
-INSERT INTO `task_janitor` (`id`, `description`, `time`, `emp_username`, `area`) VALUES
-(20002, 'Thu gom rac', '2022-12-07 17:30:00', 'luong', 'Dai hoc Bach khoa TPHCM');
 
 -- --------------------------------------------------------
 
@@ -321,7 +311,7 @@ ALTER TABLE `mcp`
 -- AUTO_INCREMENT for table `task_collector`
 --
 ALTER TABLE `task_collector`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10010;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10022;
 
 --
 -- AUTO_INCREMENT for table `task_janitor`
