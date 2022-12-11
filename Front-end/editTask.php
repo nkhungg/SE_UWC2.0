@@ -133,7 +133,7 @@
             <input class="form-control" id="area" name="area" value ="<?php echo $row[$area]?>">
         </div>
         <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
-        <a href="Task.php" class="btn ">cancel</a>
+        <a href="Task.php?sort=id&search=" class="btn btn-danger">Cancel</a>
         </form>
         </div>
     </div>

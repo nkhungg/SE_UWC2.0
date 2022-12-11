@@ -7,5 +7,5 @@
     }
     require_once 'connection.php';
     mysqli_query($conn,$deleteTask);
-    header("location: Task.php");
+    header("location: Task.php?sort=id&search=");
 ?>

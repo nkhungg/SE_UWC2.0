@@ -101,25 +101,31 @@
         </div>
         <div id="content">
             <div class="container">
-                <select name="" id="" class="sort">
-                    <option value="" class="option-sort">Sort 1</option>
-                    <option value="" class="option-sort"></option>
-                    <option value="" class="option-sort"></option>
-                    <option value="" class="option-sort"></option>
-                </select>
-                <select name="" id="" class="sort"></select>
-                <select name="" id="" class="sort"></select>
-                <select name="" id="" class="sort"></select>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-                Thêm nhiệm vụ
-                </button>
+                <form class="form-inline" action="" method="GET">
+                <select type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="sort" name="sort">
+                        <option value="id" <?php if(isset($_GET['sort']) && $_GET['sort'] == "id"){echo "selected";}?> >IDNHIEMVU</option>
+                        <option value="time" <?php if(isset($_GET['sort']) && $_GET['sort'] == "time"){echo "selected";}?> >TIME</option>
+                        <option value="emp_username" <?php if(isset($_GET['sort']) && $_GET['sort'] == "emp_username"){echo "selected";}?> >NHANVIEN</option>
+                    </select>
+                    <input type="text" class="form-control mb-2 mr-sm-2" name="search">
+                    <button type="submit" class="btn btn-primary mb-2">Sort</button>
+                </form>
+                <div class="button">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalCollector">
+                    Collector <i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
+                    </button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalJanitor">
+                    Janitor <i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
+                    </button>
+                </div>
             </div>
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
                     <th>Mô tả</th>
-                    <th>Thời gian</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian kết thúc</th>
                     <th>Tên nhân viên</th>
                     <th>Khu vực/MCP_ID</th>
                     <th>Hành động</th>
@@ -127,7 +133,13 @@
                 </thead>
                 <tbody>
                 <?php
-                $query = "SELECT * from task_collector union select * from task_janitor order by time";
+                $sort_option=$_GET['sort'];
+                $query = "SELECT * from task_collector union select * from task_janitor order by $sort_option";
+                if(isset($_GET["search"]) && !empty($_GET["search"])){
+                    $sort_option = $_GET['sort'];
+                    $str=$_GET['search'];
+                    $query = "SELECT * from (SELECT * from task_collector union all select * from task_janitor) as something where $sort_option REGEXP '$str+' order by $sort_option";
+                }
                 $result = mysqli_query($conn,$query);
                 while($r=mysqli_fetch_assoc($result)){
                     ?>
@@ -135,6 +147,7 @@
                     <td><?php echo $r['id']; ?></td>
                     <td><?php echo $r['description']; ?></td>
                     <td><?php echo $r['time']; ?></td>
+                    <td><?php echo $r['endtime']; ?></td>
                     <td><?php echo $r['emp_username']; ?></td>
                     <td><?php echo $r['mcp_id']; ?></td>
                     <td>
@@ -153,46 +166,105 @@
     </div>
 </body>
 <!-- The Modal -->
-<div class="modal fade" id="myModal">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+<div class="modal fade" id="myModalCollector">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm nhiệm vụ mới</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Thêm nhiệm vụ mới</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <form action="updateTask.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $edit?>" id="">
-        <div class="form-group description">
-            <label for="thoigian">Mô tả</label>
-            <input  class="form-control" id="des" name="des" value ="<?php echo $row['description']?>">
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="newTask.php" method="post">
+                    
+                        <div class="form-group">
+                            <label for="thoigian">Mô tả</label>
+                            <div class="container">
+                            <input class="form-control" id="description" name="description">
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <label for="voucher">Thời gian</label>
+                        <!-- <input class="form-control" id="time" name="time"> -->
+                        <div class="form-group">
+                            <?php
+                            include "selectTime.php"
+                            ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">Tên nhân viên</label>
+                        <div class="form-group">
+                            <?php
+                            include "selectCollector.php"
+                            ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">MCP ID</label>
+                        <div class="form-group">
+                            <?php
+                            include "selectMCP.php"
+                            ?>
+                        </div>
+                    </div>
+                    <button value="1" name="type" id="type"  onclick="return confirm('Xác nhận thêm nhiệm vụ?')" type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="voucher">Thời gian</label>
-            <input class="form-control" id="time" name="time" value ="<?php echo $row['time']?>">
-        </div>
-        <div class="form-group">
-            <label for="state">Tên nhân viên</label>
-            <input class="form-control" id="name" name="name" value ="<?php echo $row['emp_username']?>">
-        </div><div class="form-group">
-            <label for="state">Khu vực / MCP ID</label>
-            <input class="form-control" id="area" name="area" value ="<?php echo $row[$area]?>">
-        </div>
-        <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
-        <a href="Task.php" class="btn ">cancel</a>
-        </form>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-      </div>
-
     </div>
-  </div>
+</div>
+<!-- ####################################################### -->
+<div class="modal fade" id="myModalJanitor">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm nhiệm vụ mới</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="newTask.php" method="post">
+                    
+                        <div class="form-group">
+                            <label for="thoigian">Mô tả</label>
+                            <div class="container">
+                            <input class="form-control" id="description" name="description">
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <label for="voucher">Thời gian bắt đầu</label>
+                        <!-- <input class="form-control" id="time" name="time"> -->
+                        <div class="form-group">
+                            <?php
+                            include "selectTime.php"
+                            ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">Tên nhân viên</label>
+                        <div class="form-group">
+                            <?php
+                            include "selectJanitor.php"
+                            ?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label for="area">Khu vực</label>
+                            <div class="container">
+                            <input class="form-control" id="area" name="area">
+                            </div>
+                    </div>
+                    <button value="2" name="type" id="type" onclick="return confirm('Xác nhận thêm nhiệm vụ?')" type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </html>

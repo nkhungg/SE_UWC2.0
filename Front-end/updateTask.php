@@ -13,5 +13,5 @@ if($id[0]==2){
     mcp_id ='$area' where id='$id'";
 }
 mysqli_query($conn,$editEmp);
-header("location: Task.php");
+header("location: Task.php?sort=id&search=");
 ?>
