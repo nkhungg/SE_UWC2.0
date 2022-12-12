@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2022 at 05:29 PM
+-- Generation Time: Dec 12, 2022 at 02:42 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -85,19 +85,21 @@ CREATE TABLE `mcp` (
   `capacity` int(10) DEFAULT NULL,
   `current` int(10) NOT NULL,
   `status` enum('full','available') DEFAULT 'available',
-  `location` varchar(50) DEFAULT NULL
+  `location` varchar(50) DEFAULT NULL,
+  `latitude` float DEFAULT NULL,
+  `longtitude` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `mcp`
 --
 
-INSERT INTO `mcp` (`id`, `capacity`, `current`, `status`, `location`) VALUES
-(9001, 100, 75, 'available', 'KTX DHQG TPHCM'),
-(9002, 120, 110, 'full', 'Dai hoc Bach khoa TPHCM'),
-(9003, 80, 75, 'full', 'Suoi Tien'),
-(9004, 100, 20, 'available', 'Dai hoc SPKT TPHCM'),
-(9005, 150, 10, 'available', 'Dam Sen');
+INSERT INTO `mcp` (`id`, `capacity`, `current`, `status`, `location`, `latitude`, `longtitude`) VALUES
+(9001, 100, 75, 'available', 'KTX khu A DHQG TPHCM', 10.8784, 106.806),
+(9002, 120, 110, 'full', 'Dai hoc Bach khoa TPHCM', 10.7723, 106.658),
+(9003, 80, 75, 'full', 'Suoi Tien', 10.8663, 106.803),
+(9004, 100, 20, 'available', 'Dai hoc SPKT TPHCM', 10.8531, 106.772),
+(9005, 150, 10, 'available', 'Dam Sen', 10.7662, 106.642);
 
 -- --------------------------------------------------------
 
@@ -122,6 +124,7 @@ CREATE TABLE `task_collector` (
   `id` int(11) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `time` datetime DEFAULT addtime(curtime(),'1:0:0'),
+  `endtime` datetime DEFAULT addtime(`time`,'3:0:0'),
   `emp_username` varchar(50) DEFAULT NULL,
   `mcp_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -130,8 +133,8 @@ CREATE TABLE `task_collector` (
 -- Dumping data for table `task_collector`
 --
 
-INSERT INTO `task_collector` (`id`, `description`, `time`, `emp_username`, `mcp_id`) VALUES
-(10018, '', '2022-12-15 23:09:00', 'congthanh', 9002);
+INSERT INTO `task_collector` (`id`, `description`, `time`, `endtime`, `emp_username`, `mcp_id`) VALUES
+(10018, '', '2022-12-15 23:09:00', '2022-12-16 02:09:00', 'congthanh', 9002);
 
 -- --------------------------------------------------------
 
