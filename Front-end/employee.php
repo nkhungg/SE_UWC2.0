@@ -8,8 +8,8 @@ require_once 'connection.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhiệm vụ</title>
-    <link rel="stylesheet" type="text/css" href="./css/Task.css    ">
+    <title>Nhân viên</title>
+    <link rel="stylesheet" type="text/css" href="./css/employee.css    ">
     <link rel="stylesheet" type="text/css" href="./css/bar.css    ">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -49,7 +49,7 @@ require_once 'connection.php';
                 </li>
                 <li class="employee select">
                     <i class="ti-user"></i>
-                    <a href="employee.php?sort=id&search=">
+                    <a href="employee.php?sort=username&search=">
                         Nhân viên
                     </a>
                 </li>
@@ -103,73 +103,70 @@ require_once 'connection.php';
         </div>
         <div id="content">
             <div class="container">
-                    <form class="form-inline" action="" method="GET">
-                        <select type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="sort" name="sort">
-                            <option value="id" <?php if (isset($_GET['sort']) && $_GET['sort'] == "id") {
-                                                    echo "selected";
-                                                } ?>>IDNHIEMVU</option>
-                            <option value="time" <?php if (isset($_GET['sort']) && $_GET['sort'] == "time") {
+                <form class="form-inline" action="" method="GET">
+                    <select type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="sort" name="sort">
+                        <option value="username" <?php if (isset($_GET['sort']) && $_GET['sort'] == "username") {
                                                         echo "selected";
-                                                    } ?>>TIME</option>
-                            <option value="emp_username" <?php if (isset($_GET['sort']) && $_GET['sort'] == "emp_username") {
-                                                                echo "selected";
-                                                            } ?>>NHANVIEN</option>
-                        </select>
-                        <input type="text" class="form-control mb-2 mr-sm-2" name="search">
-                        <button type="submit" class="btn btn-primary mb-2">Sort</button>
-                    </form>
+                                                    } ?>>Tên đăng nhập</option>
+                        <option value="name" <?php if (isset($_GET['sort']) && $_GET['sort'] == "name") {
+                                                    echo "selected";
+                                                } ?>>Tên</option>
+                        <option value="role" <?php if (isset($_GET['sort']) && $_GET['sort'] == "role") {
+                                                    echo "selected";
+                                                } ?>>Chức năng</option>
+                    </select>
+                    <input type="text" class="form-control mb-2 mr-sm-2" name="search">
+                    <button type="submit" class="btn btn-primary mb-2">Sort</button>
+                </form>
                 <div class="button">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalCollector">
-                        Collector<i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
-                    </button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalJanitor">
-                        Janitor <i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalEmp">
+                        <i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
                     </button>
                 </div>
             </div>
-            <!-- Tab panes -->
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Mô tả</th>
-                                <th>Thời gian bắt đầu</th>
-                                <th>Thời gian kết thúc</th>
-                                <th>Tên nhân viên</th>
-                                <th>MCP ID</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sort_option = $_GET['sort'];
-                            $query = "SELECT * from task_collector order by $sort_option";
-                            if (isset($_GET["search"]) && !empty($_GET["search"])) {
-                                $sort_option = $_GET['sort'];
-                                $str = $_GET['search'];
-                                $query = "SELECT * from task_collector where $sort_option REGEXP '$str+' order by $sort_option";
-                            }
-                            $result = mysqli_query($conn, $query);
-                            while ($r = mysqli_fetch_assoc($result)) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $r['id']; ?></td>
-                                    <td><?php echo $r['description']; ?></td>
-                                    <td><?php echo $r['time']; ?></td>
-                                    <td><?php echo $r['endtime']; ?></td>
-                                    <td><?php echo $r['emp_username']; ?></td>
-                                    <td><?php echo $r['mcp_id']; ?></td>
-                                    <td>
-                                        <a name="ID" href="editTask.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
-                                        <a name="ID" href="deleteTask.php?ID=<?php echo $r['id']; ?>" onclick="return confirm('Bạn có muốn xóa nhiệm vụ này')" class="btn btn-danger">Xóa</a>
-                                        <a href="showRoute.php?ID=<?php echo $r['id']; ?>" class="btn btn-dark" target=”_blank”>Đường đi</a>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Tên đăng nhập</th>
+                        <th>Password</th>
+                        <th>Tên</th>
+                        <th>Chức năng</th>
+                        <th>Tình trạng</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $sort_option = $_GET['sort'];
+                    $query = "SELECT * from employee order by $sort_option";
+                    if (isset($_GET["search"]) && !empty($_GET["search"])) {
+                        $sort_option = $_GET['sort'];
+                        $str = $_GET['search'];
+                        $query = "SELECT * from employee where $sort_option REGEXP '$str+' order by $sort_option";
+                    }
+                    $result = mysqli_query($conn, $query);
+                    while ($r = mysqli_fetch_assoc($result)) {
+                    ?>
+                        <tr>
+                            <td><?php echo $r['username']; ?></td>
+                            <td><?php echo $r['password']; ?></td>
+                            <td><?php echo $r['name']; ?></td>
+                            <td><?php echo $r['role']; ?></td>
+                            <td><?php echo $r['status']; ?></td>
+                            <td><?php echo $r['email']; ?></td>
+                            <td><?php echo $r['phone_num']; ?></td>
+                            <td>
+                                <a name="ID" href="editEmp.php?username=<?php echo $r['username']; ?>" class="btn btn-primary">Sửa</a>
+                                <a name="ID" href="deleteEmp.php?username=<?php echo $r['username']; ?>" onclick="return confirm('Bạn có muốn xóa?')" class="btn btn-danger">Xóa</a>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+            </table>
 
         </div>
         <!-- Tabs content -->
@@ -178,106 +175,51 @@ require_once 'connection.php';
     </div>
 </body>
 <!-- The Modal -->
-<div class="modal fade" id="myModalCollector">
+<div class="modal fade" id="myModalEmp">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Thêm nhiệm vụ mới</h4>
+                <h4 class="modal-title">Thêm nhân viên mới</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
             <!-- Modal body -->
             <div class="modal-body">
-                <form action="newTask.php" method="post">
-
+                <form action="addEmp.php" method="post">
                     <div class="form-group">
-                        <label for="thoigian">Mô tả</label>
-                        <div class="container">
-                            <input class="form-control" id="description" name="description">
-                        </div>
+                        <label for="username">Tên đăng nhập</label>
+                        <input class="form-control" id="username" name="username">
                     </div>
                     <div class="form-group">
-                        <label for="voucher">Thời gian</label>
-                        <!-- <input class="form-control" id="time" name="time"> -->
-                        <div class="form-group">
-                            <?php
-                            include "selectTime.php"
-                            ?>
-                        </div>
+                        <label for="password">Mật khẩu</label>
+                        <input class="form-control" id="password" name="password" type="password">
                     </div>
                     <div class="form-group">
-                        <label for="state">Tên nhân viên</label>
-                        <div class="form-group">
-                            <?php
-                            include "selectCollector.php"
-                            ?>
-                        </div>
+                        <label for="name">Tên</label>
+                        <input class="form-control" id="name" name="name" type="name">
                     </div>
                     <div class="form-group">
-                        <label for="state">MCP ID</label>
-                        <div class="form-group">
-                            <?php
-                            include "selectMCP.php"
-                            ?>
-                        </div>
+                        <label for="role">Chức năng</label>
+                        <select name="role" id="role" class="form-control">
+                            <option value="collector">collector</option>
+                            <option value="janitor">janitor</option>
+                        </select>
                     </div>
-                    <button value="1" name="type" id="type" onclick="return confirm('Xác nhận thêm nhiệm vụ?')" type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </form>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_num">Số điện thoại</label>
+                        <input class="form-control" id="phone_num" name="phone_num">
+                    </div>
             </div>
+            <button value="1" name="type" id="type" onclick="return confirm('Xác nhận thêm?')" type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </form>
         </div>
     </div>
 </div>
-<!-- ####################################################### -->
-<div class="modal fade" id="myModalJanitor">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Thêm nhiệm vụ mới</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form action="newTask.php" method="post">
-
-                    <div class="form-group">
-                        <label for="thoigian">Mô tả</label>
-                        <div class="container">
-                            <input class="form-control" id="description" name="description">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="voucher">Thời gian bắt đầu</label>
-                        <!-- <input class="form-control" id="time" name="time"> -->
-                        <div class="form-group">
-                            <?php
-                            include "selectTime.php"
-                            ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="state">Tên nhân viên</label>
-                        <div class="form-group">
-                            <?php
-                            include "selectJanitor.php"
-                            ?>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="area">Khu vực</label>
-                        <div class="container">
-                            <input class="form-control" id="area" name="area">
-                        </div>
-                    </div>
-                    <button value="2" name="type" id="type" onclick="return confirm('Xác nhận thêm nhiệm vụ?')" type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 </html>

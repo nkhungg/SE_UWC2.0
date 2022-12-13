@@ -49,7 +49,7 @@ require_once 'connection.php';
                 </li>
                 <li class="employee">
                     <i class="ti-user"></i>
-                    <a href="employee.php?sort=id&search=">
+                    <a href="employee.php?sort=username&search=">
                         Nhân viên
                     </a>
                 </li>
@@ -114,7 +114,7 @@ require_once 'connection.php';
                         </li>
                     </ul>
                     <form class="form-inline" action="" method="GET">
-                        <select type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="sort" name="sort">
+                        <select type="sort" class="form-control mb-2 mr-sm-2" id="sort" name="sort">
                             <option value="id" <?php if (isset($_GET['sort']) && $_GET['sort'] == "id") {
                                                     echo "selected";
                                                 } ?>>IDNHIEMVU</option>
@@ -156,11 +156,11 @@ require_once 'connection.php';
                         <tbody>
                             <?php
                             $sort_option = $_GET['sort'];
-                            $query = "SELECT * from task_collector order by $sort_option";
+                            $query = "SELECT * from `task_collector-info` order by $sort_option";
                             if (isset($_GET["search"]) && !empty($_GET["search"])) {
                                 $sort_option = $_GET['sort'];
                                 $str = $_GET['search'];
-                                $query = "SELECT * from task_collector where $sort_option REGEXP '$str+' order by $sort_option";
+                                $query = "SELECT * from `task_collector-info` where $sort_option REGEXP '$str+' order by $sort_option";
                             }
                             $result = mysqli_query($conn, $query);
                             while ($r = mysqli_fetch_assoc($result)) {
@@ -170,8 +170,38 @@ require_once 'connection.php';
                                     <td><?php echo $r['description']; ?></td>
                                     <td><?php echo $r['time']; ?></td>
                                     <td><?php echo $r['endtime']; ?></td>
-                                    <td><?php echo $r['emp_username']; ?></td>
-                                    <td><?php echo $r['mcp_id']; ?></td>
+                                    <td><?php
+                                        $id_employee_task = $r['id'];
+                                        $emp_name = "SELECT `emp_username` from `task_collector-collector` where id= $id_employee_task";
+                                        $emp_count = "SELECT count(`emp_username`) as emp_num from (SELECT `emp_username` from `task_collector-collector` where id= $id_employee_task) as a";
+                                        $emp_count_result = mysqli_query($conn, $emp_count);
+                                        $emp_count_display = mysqli_fetch_assoc($emp_count_result);
+                                        $count = $emp_count_display['emp_num'];
+                                        $emp_name_result = mysqli_query($conn, $emp_name);
+                                        while ($emp_name_display = mysqli_fetch_assoc($emp_name_result)) {
+                                            echo $emp_name_display['emp_username'];
+                                            if ($count != 1) {
+                                                echo ", ";
+                                            }
+                                            $count = $count - 1;
+                                        }
+                                        ?></td>
+                                    <td><?php
+                                        $id_employee_task = $r['id'];
+                                        $mcp_name = "SELECT `mcp_id` from `task_collector-mcp` where id= $id_employee_task";
+                                        $mcp_count = "SELECT count(`mcp_id`) as mcp_num from (SELECT `mcp_id` from `task_collector-mcp` where id= $id_employee_task) as a";
+                                        $mcp_count_result = mysqli_query($conn, $mcp_count);
+                                        $mcp_count_display = mysqli_fetch_assoc($mcp_count_result);
+                                        $count = $mcp_count_display['mcp_num'];
+                                        $mcp_name_result = mysqli_query($conn, $mcp_name);
+                                        while ($mcp_name_display = mysqli_fetch_assoc($mcp_name_result)) {
+                                            echo $mcp_name_display['mcp_id'];
+                                            if ($count != 1) {
+                                                echo ", ";
+                                            }
+                                            $count = $count - 1;
+                                        }
+                                        ?></td>
                                     <td>
                                         <a name="ID" href="editTask.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
                                         <a name="ID" href="deleteTask.php?ID=<?php echo $r['id']; ?>" onclick="return confirm('Bạn có muốn xóa nhiệm vụ này')" class="btn btn-danger">Xóa</a>
@@ -249,14 +279,13 @@ require_once 'connection.php';
                 <form action="newTask.php" method="post">
 
                     <div class="form-group">
-                        <label for="thoigian">Mô tả</label>
+                        <label for="des">Mô tả</label>
                         <div class="container">
                             <input class="form-control" id="description" name="description">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="voucher">Thời gian</label>
-                        <!-- <input class="form-control" id="time" name="time"> -->
+                        <label for="time">Thời gian</label>
                         <div class="form-group">
                             <?php
                             include "selectTime.php"
@@ -264,7 +293,7 @@ require_once 'connection.php';
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="state">Tên nhân viên</label>
+                        <label for="username">Tên nhân viên</label>
                         <div class="form-group">
                             <?php
                             include "selectCollector.php"
@@ -272,7 +301,7 @@ require_once 'connection.php';
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="state">MCP ID</label>
+                        <label for="mcp">MCP ID</label>
                         <div class="form-group">
                             <?php
                             include "selectMCP.php"
@@ -299,15 +328,14 @@ require_once 'connection.php';
             <!-- Modal body -->
             <div class="modal-body">
                 <form action="newTask.php" method="post">
-
                     <div class="form-group">
-                        <label for="thoigian">Mô tả</label>
+                        <label for="des">Mô tả</label>
                         <div class="container">
                             <input class="form-control" id="description" name="description">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="voucher">Thời gian bắt đầu</label>
+                        <label for="time">Thời gian bắt đầu</label>
                         <!-- <input class="form-control" id="time" name="time"> -->
                         <div class="form-group">
                             <?php

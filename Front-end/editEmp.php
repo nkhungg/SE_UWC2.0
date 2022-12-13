@@ -1,21 +1,13 @@
 <?php
-    $edit=$_GET['ID'];
-    require_once 'connection.php';
-    if($edit[0]==1){
-        $editEmp="SELECT * from task_collector where id=$edit";
-    }else{
-        $editEmp="SELECT * from task_janitor where id=$edit";
-    }
-    $result=mysqli_query($conn,$editEmp);
-    $row=mysqli_fetch_assoc($result);
-    if($edit[0]==1){
-        $area='mcp_id';
-    }else{
-        $area='area';
-    }
+$edit = $_GET['username'];
+require_once 'connection.php';
+$editEmp = "SELECT * from employee where username='$edit'";
+$result = mysqli_query($conn, $editEmp);
+$row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,18 +30,19 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <div id="container">
         <div id="navBar">
             <div class="logo">
                 <img src="./assets/img/logo.png" alt="logo">
-                <p class="title">UWC 2.0</p>  
+                <p class="title">UWC 2.0</p>
             </div>
             <ul class="navList">
                 <li class="main">
                     <i class="ti-book"></i>
                     <a href="index.html">
-                    Trang chủ
+                        Trang chủ
                     </a>
                 </li>
                 <li class="task select">
@@ -92,7 +85,7 @@
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Sửa nhiệm vụ</h2>
+                <h2>Sửa nhân viên</h2>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -111,32 +104,51 @@
                     <i class="bi bi-box-arrow-right"></i>
                 </li>
             </ul>
-            
+
         </div>
         <div id="content">
-        <h3 class="title">ID: <?php echo $edit;?></h3>
-        <form action="updateTask.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $edit?>" id="">
-        <div class="form-group">
-            <label for="thoigian">Mô tả</label>
-            <input  class="form-control" id="des" name="des" value ="<?php echo $row['description']?>">
+            <form action="updateEmp.php" method="post">
+            <input type="hidden" value="<?php echo $edit?>" name="old_username" id="old_username">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input class="form-control" id="username" name="username" value="<?php echo $row['username']; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input class="form-control" id="password" name="password" value="<?php echo $row['password']; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="name">Tên</label>
+                    <input class="form-control" id="name" name="name" type="name" value="<?php echo $row['name']; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="role">Trạng thái</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="assigned">assigned</option>
+                        <option value="unassigned">unassigned</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="role">Chức năng</label>
+                    <select name="role" id="role" class="form-control">
+                        <option value="collector">collector</option>
+                        <option value="janitor">janitor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="phone_num">Số điện thoại</label>
+                    <input class="form-control" id="phone_num" name="phone_num" value="<?php echo $row['phone_num']; ?>">
+                </div>
+                <button onclick="return confirm('Bạn muốn lưu thay đổi?')"  type="submit" class="btn btn-primary">Submit</button>
+                <a href="employee.php?sort=username&search=" class="btn btn-danger">Cancel</a>
         </div>
-        <div class="form-group">
-            <label for="voucher">Thời gian</label>
-            <input class="form-control" id="time" name="time" value ="<?php echo $row['time']?>">
-        </div>
-        <div class="form-group">
-            <label for="state">Tên nhân viên</label>
-            <input class="form-control" id="name" name="name" value ="<?php echo $row['emp_username']?>">
-        </div><div class="form-group">
-            <label for="state">Khu vực / MCP ID</label>
-            <input class="form-control" id="area" name="area" value ="<?php echo $row[$area]?>">
-        </div>
-        <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
-        <a href="Task.php?sort=id&search=" class="btn btn-danger">Cancel</a>
         </form>
-        </div>
     </div>
-    
+    </div>
+
 </body>
 </html>

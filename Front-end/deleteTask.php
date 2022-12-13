@@ -1,7 +1,7 @@
 <?php
     $delete = $_GET['ID'];
     if($delete[0]=='1'){
-        $deleteTask="DELETE from task_collector where id='$delete'";
+        $deleteTask="DELETE from `task_collector-info` where id='$delete'";
     }else{
         $deleteTask="DELETE from task_janitor where id='$delete'";
     }

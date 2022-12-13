@@ -16,27 +16,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <?php
-include "connect_db.php";
+include "connection.php";
 ?>
 
 <body>
     <?php
     $description = $_POST['description'];
     $time = $_POST['time'];
-    $empName = $_POST['empName'];
+    $empNames = $_POST['empNames'];
     $type = $_POST['type'];
     if ($type == "1") {
-        $mcpID = $_POST['mcpID'];
-        $query1 = "INSERT INTO `task_collector` (`description`, `time`, `emp_username`, `mcp_id`) VALUES ('$description', '$time', '$empName', '$mcpID')";
-        $query2 ="UPDATE `employee` set `status`='assigned' where `username`='$empName'";
-        echo $query;
+        $mcpIDs = $_POST['mcpIDs'];
+        $query1 = "INSERT INTO `task_collector-info` (`description`, `time`) VALUES ('$description', '$time')";
+        mysqli_query($conn, $query1);
+        $query = "SELECT `id` from `task_collector-info` where `time`='$time'";
+        $result = mysqli_query($conn, $query);
+        $r = mysqli_fetch_assoc($result);
+        $task_id = $r['id'];
+        foreach ($mcpIDs as $mcpID) {
+            $query2 = "INSERT INTO `task_collector-mcp` values ('$task_id', '$mcpID')";
+            mysqli_query($conn, $query2);
+        }
+        foreach ($empNames as $empName) {
+            $query3 = "INSERT INTO `task_collector-collector` values ('$task_id', '$empName')";
+            mysqli_query($conn, $query3);
+            $query4 = "UPDATE `employee` set `status`='assigned' where `username`='$empName'";
+            mysqli_query($conn, $query4);
+        }
     } else {
         $area = $_POST['area'];
         $query1 = "INSERT INTO `task_janitor` (`description`, `time`, `emp_username`, `area`) VALUES ('$description', '$time', '$empName', '$area')";
-        $query2 ="UPDATE `employee` set `status`='assigned' where `username`='$empName'";
+        $query2 = "UPDATE `employee` set `status`='assigned' where `username`='$empName'";
     }
-    if (mysqli_query($connect, $query1) && mysqli_query($connect, $query2)) echo '<script>alert("Thêm nhiệm vụ thành công!")</script>';
-    else echo 'Không thể thêm nhiệm vụ!' . '<br>' . mysqli_error($connect);
+    echo '<script>alert("Thêm nhiệm vụ thành công!")</script>';
     header('location: Task.php?sort=id&search=');
     ?>
 </body>
