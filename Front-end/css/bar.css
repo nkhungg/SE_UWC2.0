@@ -33,6 +33,10 @@ body{
 }
 #navBar .navList{
     margin-top:76px;
+    padding-left: 0px;
+}
+ul.topbar_list{
+    padding-left: 0px;
 }
 #navBar .logo{
     margin-top: 45px;
@@ -49,6 +53,7 @@ body{
     line-height: 33px;
     color:#6956E5;
     margin-left: 10px;
+    margin-bottom: 0px;
 }
 #container #navBar .navList li >a{
     font-weight: 500;
@@ -74,7 +79,6 @@ body{
     margin-top: 21px;
 }
 
-
 #container #topbar {
     position: relative;
     top: 0px;
@@ -87,47 +91,20 @@ body{
     align-items: center;
     z-index: 1;
     display: flex;
-}
-#topbar #greeting {
-    width: 300px;
-    line-height: 24px;
-}
-#topbar #greeting h4 {
-    font-size: 10px;
-    font-weight: 200;
-    color: #878787;
+    justify-content: space-between;
 }
 #container #topbar ul{
-    width: 300px;
     list-style: none;
     display: flex;
-    position: absolute;
-    right:0;
-    margin-right: 30px;
 }
 
 #container #topbar ul li{
-    padding: 20px;
+    padding:10px;
 } 
-
-#container #topbar ul .role{
-    width: 120px;
-} 
-
-#topbar .user{
-    position: relative;
-    width: 40px;
-    height: 40px;
-}
 
 #topbar .user img{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: inline-block;  
-}
+    width: 40px;
+} 
 #content{
     position: absolute;
     left: 308px;

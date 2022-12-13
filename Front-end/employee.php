@@ -41,13 +41,13 @@ require_once 'connection.php';
                         Trang chủ
                     </a>
                 </li>
-                <li class="task select">
+                <li class="task">
                     <i class="ti-pencil-alt"></i>
                     <a href="Task.php?sort=id&search=">
                         Nhiệm vụ
                     </a>
                 </li>
-                <li class="employee">
+                <li class="employee select">
                     <i class="ti-user"></i>
                     <a href="employee.php?sort=id&search=">
                         Nhân viên
@@ -81,7 +81,7 @@ require_once 'connection.php';
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Quản lý nhiệm vụ</h2>
+                <h2>Quản lý nhân viên</h2>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -103,16 +103,6 @@ require_once 'connection.php';
         </div>
         <div id="content">
             <div class="container">
-                <div class="nav_sort">
-                    <!-- Nav pills -->
-                    <ul class="nav nav-pills">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#Collector">Collector</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#Janitor">Janitor</a>
-                        </li>
-                    </ul>
                     <form class="form-inline" action="" method="GET">
                         <select type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="sort" name="sort">
                             <option value="id" <?php if (isset($_GET['sort']) && $_GET['sort'] == "id") {
@@ -128,7 +118,6 @@ require_once 'connection.php';
                         <input type="text" class="form-control mb-2 mr-sm-2" name="search">
                         <button type="submit" class="btn btn-primary mb-2">Sort</button>
                     </form>
-                </div>
                 <div class="button">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalCollector">
                         Collector<i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
@@ -139,8 +128,6 @@ require_once 'connection.php';
                 </div>
             </div>
             <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane container active" id="Collector">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -183,51 +170,7 @@ require_once 'connection.php';
                             ?>
                         </tbody>
                     </table>
-                </div>
-                <div class="tab-pane container fade" id="Janitor">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Mô tả</th>
-                                <th>Thời gian bắt đầu</th>
-                                <th>Thời gian kết thúc</th>
-                                <th>Tên nhân viên</th>
-                                <th>Khu vực</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $sort_option = $_GET['sort'];
-                            $query = "SELECT * from task_janitor order by $sort_option";
-                            if (isset($_GET["search"]) && !empty($_GET["search"])) {
-                                $sort_option = $_GET['sort'];
-                                $str = $_GET['search'];
-                                $query = "SELECT * from task_janitor where $sort_option REGEXP '$str+' order by $sort_option";
-                            }
-                            $result = mysqli_query($conn, $query);
-                            while ($r = mysqli_fetch_assoc($result)) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $r['id']; ?></td>
-                                    <td><?php echo $r['description']; ?></td>
-                                    <td><?php echo $r['time']; ?></td>
-                                    <td><?php echo $r['endtime']; ?></td>
-                                    <td><?php echo $r['emp_username']; ?></td>
-                                    <td><?php echo $r['area']; ?></td>
-                                    <td>
-                                        <a name="ID" href="editTask.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
-                                        <a name="ID" href="deleteTask.php?ID=<?php echo $r['id']; ?>" onclick="return confirm('Bạn có muốn xóa nhiệm vụ này')" class="btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
         </div>
         <!-- Tabs content -->
 
