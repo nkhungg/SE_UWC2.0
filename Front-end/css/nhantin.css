@@ -1,0 +1,28 @@
+.chat-box{
+    height:400px;
+    margin-bottom: 15px;
+    position: relative;
+    overflow-y: auto;
+	overflow-x: hidden;
+}
+.from{
+    max-width: 65%;
+	background: #f8f9fa;
+	color: #444;
+    align-self: end;
+    /* right:0; */
+    float:right;
+    text-align: right;
+    width:fit-content;
+}
+.to{
+    max-width: 65%;
+	background: #3289c8;
+	color: #fff;
+    align-self: end;
+    width:fit-content;
+}
+.mess{
+
+    border-radius: 20px;
+}

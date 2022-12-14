@@ -25,7 +25,7 @@ include "connection.php";
         <div class="form-group">
             <select name="empNames[]" id="empName" class="post form-control multiple-select2" multiple>
                 <?php
-                $sql = "SELECT * FROM employee WHERE role='collector'"; // 
+                $sql = "SELECT * FROM employee WHERE status='unassigned' and role='collector'"; // 
                 $i = 0;
                 $empList = array();
                 if ($result = mysqli_query($conn, $sql)) {

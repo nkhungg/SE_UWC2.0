@@ -215,7 +215,7 @@ $offset = ($page - 1) * $record1page;
                                         }
                                         ?></td>
                                     <td>
-                                        <a name="ID" href="editTask.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
+                                        <a name="ID" href="editTaskCollector.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
                                         <a name="ID" href="deleteTask.php?ID=<?php echo $r['id']; ?>" onclick="return confirm('Bạn có muốn xóa nhiệm vụ này')" class="btn btn-danger">Xóa</a>
                                         <a href="showRoute.php?ID=<?php echo $r['id']; ?>" class="btn btn-dark" target=”_blank”>Đường đi</a>
                                     </td>
@@ -269,7 +269,7 @@ $offset = ($page - 1) * $record1page;
                                     <td><?php echo $r['emp_username']; ?></td>
                                     <td><?php echo $r['area']; ?></td>
                                     <td>
-                                        <a name="ID" href="editTask.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
+                                        <a name="ID" href="editTaskJanitor.php?ID=<?php echo $r['id']; ?>" class="btn btn-primary">Sửa</a>
                                         <a name="ID" href="deleteTask.php?ID=<?php echo $r['id']; ?>" onclick="return confirm('Bạn có muốn xóa nhiệm vụ này')" class="btn btn-danger">Xóa</a>
                                     </td>
                                 </tr>
@@ -325,7 +325,7 @@ $offset = ($page - 1) * $record1page;
                         <label for="username">Tên nhân viên</label>
                         <div class="form-group">
                             <?php
-                            include "selectCollector.php"
+                            include "selectCollector2.php"
                             ?>
                         </div>
                     </div>

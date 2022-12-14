@@ -1,32 +1,22 @@
 <?php
-    $edit=$_GET['ID'];
-    require_once 'connection.php';
-    if($edit[0]==1){
-        $editEmp="SELECT * from task_collector where id=$edit";
-    }else{
-        $editEmp="SELECT * from task_janitor where id=$edit";
-    }
-    $result=mysqli_query($conn,$editEmp);
-    $row=mysqli_fetch_assoc($result);
-    if($edit[0]==1){
-        $area='mcp_id';
-    }else{
-        $area='area';
-    }
+require_once 'connection.php';
+$ID = $_GET['ID'];
+$username = $_GET['username'];
+$name = $_GET['name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhiệm vụ</title>
-    <link rel="stylesheet" type="text/css" href="./css/bar.css">
-    <link rel="stylesheet" type="text/css" href="./css/edit.css">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/bar.css    ">
+    <link rel="stylesheet" type="text/css" href="./css/nhantin.css    ">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
     <!-- jQuery library -->
@@ -38,9 +28,14 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+<?php
+require_once 'connection.php';
+
+?>
+
 <body>
     <div id="container">
-    <div id="navBar">
+        <div id="navBar">
             <div class="logo">
                 <img src="./assets/img/logo.png" alt="logo">
                 <p class="title">UWC 2.0</p>
@@ -52,7 +47,7 @@
                         Trang chủ
                     </a>
                 </li>
-                <li class="task select">
+                <li class="task">
                     <i class="ti-pencil-alt"></i>
                     <a href="Task.php?sort=id&search=&page=1">
                         Nhiệm vụ
@@ -64,7 +59,7 @@
                         Nhân viên
                     </a>
                 </li>
-                <li class="message">
+                <li class="message select">
                     <i class="ti-comments"></i>
                     <a href="chat.php">
                         Tin nhắn
@@ -92,8 +87,8 @@
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Chào buổi sáng</h2>
-                <h4>Hy vọng bạn có một ngày làm việc tốt lành</h4>
+                <h2>Tên: <?= $name ?></h2>
+                <h4>Username: <?= $username ?></h4>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -111,29 +106,42 @@
             </ul>
         </div>
         <div id="content">
-        <h3 class="title">ID: <?php echo $edit;?></h3>
-        <form action="updateTask.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $edit?>" id="">
-        <div class="form-group">
-            <label for="thoigian">Mô tả</label>
-            <input  class="form-control" id="des" name="des" value ="<?php echo $row['description']?>">
+            <div class="shadow p-4 rounded
+    	               d-flex flex-column
+    	               mt-2 chat-box">
+                <?php
+                $sql = "SELECT * from chats where (from_id='BO' and to_id='$username') or (to_id='BO' and from_id='$username')";
+                $result = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    if ($row['from_id'] == 'BO') {
+                ?>
+                        <div class="mess">
+                            <div class="from p-2 mb-1 border rounded">
+                                <?= $row['message'] ?>
+                                <small class="d-block" style="font-size:12px">
+                                    <?= $row['time'] ?>
+                                </small>
+                            </div>
+
+                        </div>
+                    <?php } else { ?>
+                        <div class="mess">
+                            <div class="to rounded p-2 mb-1"><?= $row['message'] ?><small class="d-block" style="font-size:12px">
+                                    <?= $row['time'] ?>
+                                </small></div>
+
+                        </div>
+                <?php }
+                }
+                ?>
+            </div>
+            <form action="newmess.php" method="POST">
+                <input type="hidden" value="<?=$username?>"  name="to_id">
+                <input type="hidden" value="<?=$name?>"  name="name">
+                <input type="hidden" value="<?=$ID?>"  name="chat_ID">
+                <input type="text" placeholder="Nhập tin nhắn ở đây" class="form-control mb-2 mr-sm-2" name="message">
+            </form>
         </div>
-        <div class="form-group">
-            <label for="voucher">Thời gian</label>
-            <input class="form-control" id="time" name="time" value ="<?php echo $row['time']?>">
-        </div>
-        <div class="form-group">
-            <label for="state">Tên nhân viên</label>
-            <input class="form-control" id="name" name="name" value ="<?php echo $row['emp_username']?>">
-        </div><div class="form-group">
-            <label for="state">Khu vực / MCP ID</label>
-            <input class="form-control" id="area" name="area" value ="<?php echo $row[$area]?>">
-        </div>
-        <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
-        <a href="Task.php?sort=id&search=" class="btn btn-danger">Cancel</a>
-        </form>
-        </div>
-    </div>
-    
 </body>
+
 </html>

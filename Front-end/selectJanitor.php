@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,31 +16,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <?php
-        include "connect_db.php";
-    ?>
+include "connection.php";
+?>
+
 <body>
     <div class="container">
-            <div class="form-group">
-                <select name="empName" id="empName" class="post form-control">
+        <div class="form-group">
+            <select name="empName" id="empName" class="post form-control">
                 <?php
-                $sql="SELECT * FROM employee WHERE status='unassigned' AND role='janitor'";
-                $i=1;
-                $empList=array();
-                if ($result=mysqli_query($connect, $sql))
-                {
-                    while ($row=mysqli_fetch_array($result))
-                    {
-                        $empList[]=$row['username'];
+                $sql = "SELECT * FROM `employee` WHERE status='unassigned' AND role='janitor'";
+                $i = 0;
+                $empList = array();
+                if ($result = mysqli_query($conn, $sql)) {
+                    while ($row = mysqli_fetch_array($result)) {
+                        $empList[] = $row['username'];
                         echo $empList[$i];
-                        ?>
-                        <option><?php echo $empList[$i-1];?></option>
-                        <?php
+                ?>
+                        <option><?php echo $empList[$i]; ?></option>
+                <?php
                         $i++;
                     }
                 }
                 ?>
-                </select>
-            </div>
+            </select>
+        </div>
     </div>
 </body>
+
 </html>
