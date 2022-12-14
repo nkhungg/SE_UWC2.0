@@ -23,9 +23,9 @@ include "connection.php";
     <?php
     $description = $_POST['description'];
     $time = $_POST['time'];
-    $empNames = $_POST['empNames'];
     $type = $_POST['type'];
-    if ($type == "1") {
+    if ($type == "1") {    
+        $empNames = $_POST['empNames'];
         $mcpIDs = $_POST['mcpIDs'];
         $query1 = "INSERT INTO `task_collector-info` (`description`, `time`) VALUES ('$description', '$time')";
         mysqli_query($conn, $query1);
@@ -44,9 +44,12 @@ include "connection.php";
             mysqli_query($conn, $query4);
         }
     } else {
+        $empName = $_POST['empName'];
         $area = $_POST['area'];
         $query1 = "INSERT INTO `task_janitor` (`description`, `time`, `emp_username`, `area`) VALUES ('$description', '$time', '$empName', '$area')";
         $query2 = "UPDATE `employee` set `status`='assigned' where `username`='$empName'";
+        mysqli_query($conn, $query1);
+        mysqli_query($conn, $query2);
     }
     echo '<script>alert("Thêm nhiệm vụ thành công!")</script>';
     header('location: Task.php?sort=id&search=');

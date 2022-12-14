@@ -40,59 +40,60 @@
 </head>
 <body>
     <div id="container">
-        <div id="navBar">
+    <div id="navBar">
             <div class="logo">
                 <img src="./assets/img/logo.png" alt="logo">
-                <p class="title">UWC 2.0</p>  
+                <p class="title">UWC 2.0</p>
             </div>
             <ul class="navList">
                 <li class="main">
                     <i class="ti-book"></i>
-                    <a href="index.html">
-                    Trang chủ
+                    <a href="index.php">
+                        Trang chủ
                     </a>
                 </li>
                 <li class="task select">
                     <i class="ti-pencil-alt"></i>
-                    <a href="Task.html">
+                    <a href="Task.php?sort=id&search=&page=1">
                         Nhiệm vụ
                     </a>
                 </li>
                 <li class="employee">
                     <i class="ti-user"></i>
-                    <a href="index.html">
+                    <a href="employee.php?sort=username&search=&page=1">
                         Nhân viên
                     </a>
                 </li>
                 <li class="message">
                     <i class="ti-comments"></i>
-                    <a href="index.html">
+                    <a href="chat.php">
                         Tin nhắn
                     </a>
                 </li>
+                <li class="message">
+                    <i class="ti-map"></i>
+                    <a href="manageMCP.php?sort=id&search=&page=1">
+                        MCP
+                    </a>
+                </li>
                 <li class="manage">
-                    <i class="ti-notepad"></i>
-                    <a href="index.html">
-                        Quản lý
+                    <i class="ti-truck"></i>
+                    <a href="manageVehicle.php?sort=id&search=&page=1">
+                        Phương tiện
                     </a>
                 </li>
                 <li class="info">
-                    <i class="ti-id-badge"></i>
-                    <a href="index.html">
-                        Hồ sơ
-                    </a>
-                </li>
-                <li class="setting">
-                    <i class="ti-settings"></i>
-                    <a href="index.html">
-                        Cài đặt
+                    <i class="bi bi-box-arrow-right"></i>
+                    <a href="logout.php">
+                        Đăng xuất
                     </a>
                 </li>
             </ul>
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Sửa nhiệm vụ</h2>
+                <h2>Chào buổi sáng</h2>
+                <h4>Hy vọng bạn có một ngày làm việc tốt lành</h4>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -107,11 +108,7 @@
                 <li class="role">
                     <p class="role"><b>Quản trị viên</b></p>
                 </li>
-                <li class="logout">
-                    <i class="bi bi-box-arrow-right"></i>
-                </li>
             </ul>
-            
         </div>
         <div id="content">
         <h3 class="title">ID: <?php echo $edit;?></h3>

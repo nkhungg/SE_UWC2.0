@@ -1,8 +1,8 @@
 <?php
-$edit = $_GET['username'];
+$edit = $_GET['ID'];
 require_once 'connection.php';
-$editEmp = "SELECT * from employee where username='$edit'";
-$result = mysqli_query($conn, $editEmp);
+$editTroller = "SELECT * from truck where truck_id='$edit'";
+$result = mysqli_query($conn, $editTroller);
 $row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $row = mysqli_fetch_assoc($result);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhiệm vụ</title>
+    <title>Truck</title>
     <link rel="stylesheet" type="text/css" href="./css/bar.css">
     <link rel="stylesheet" type="text/css" href="./css/edit.css">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
@@ -52,7 +52,7 @@ $row = mysqli_fetch_assoc($result);
                     </a>
                 </li>
                 <li class="employee">
-                    <i class="ti-user select"></i>
+                    <i class="ti-user"></i>
                     <a href="employee.php?sort=username&search=&page=1">
                         Nhân viên
                     </a>
@@ -69,7 +69,7 @@ $row = mysqli_fetch_assoc($result);
                         MCP
                     </a>
                 </li>
-                <li class="manage">
+                <li class="manage select">
                     <i class="ti-truck"></i>
                     <a href="manageVehicle.php?sort=id&search=&page=1">
                         Phương tiện
@@ -104,48 +104,43 @@ $row = mysqli_fetch_assoc($result);
             </ul>
         </div>
         <div id="content">
-            <form action="updateEmp.php" method="post">
-            <input type="hidden" value="<?php echo $edit?>" name="old_username" id="old_username">
+            <form action="updateTruck.php" method="post">
+                <input type="hidden" value="<?php echo $edit ?>" name="id" id="id">
                 <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <input class="form-control" id="username" name="username" value="<?php echo $row['username']; ?>">
+                    <label for="fuel">Nhiên liệu</label>
+                    <input class="form-control" id="fuel" name="fuel" value="<?php echo $row['fuel']; ?>">
                 </div>
                 <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <input class="form-control" id="password" name="password" value="<?php echo $row['password']; ?>">
+                    <label for="state">Người điều khiển</label>
+                    <div class="form-group">
+                        <div class="container">
+                            <div class="form-group">
+                                <select name="empName" id="empName" class="post form-control">
+                                    <?php
+                                    $sql = "SELECT username from employee where employee.role = 'collector'";
+                                    $i = 0;
+                                    $empList = array();
+                                    if ($result = mysqli_query($conn, $sql)) {
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            $empList[] = $row['username'];
+                                            echo $empList[$i];
+                                    ?>
+                                            <option><?php echo $empList[$i]; ?></option>
+                                    <?php
+                                            $i++;
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
+                    <a href="manageVehicle.php?sort=ID&search=" class="btn btn-danger">Cancel</a>
                 </div>
-                <div class="form-group">
-                    <label for="name">Tên</label>
-                    <input class="form-control" id="name" name="name" type="name" value="<?php echo $row['name']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="role">Trạng thái</label>
-                    <select name="status" id="status" class="form-control">
-                        <option value="assigned">assigned</option>
-                        <option value="unassigned">unassigned</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="role">Chức năng</label>
-                    <select name="role" id="role" class="form-control">
-                        <option value="collector">collector</option>
-                        <option value="janitor">janitor</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="phone_num">Số điện thoại</label>
-                    <input class="form-control" id="phone_num" name="phone_num" value="<?php echo $row['phone_num']; ?>">
-                </div>
-                <button onclick="return confirm('Bạn muốn lưu thay đổi?')"  type="submit" class="btn btn-primary">Submit</button>
-                <a href="employee.php?sort=username&search=" class="btn btn-danger">Cancel</a>
+            </form>
         </div>
-        </form>
     </div>
-    </div>
-
 </body>
+
 </html>

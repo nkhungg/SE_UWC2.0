@@ -1,10 +1,3 @@
-<?php
-$edit = $_GET['username'];
-require_once 'connection.php';
-$editEmp = "SELECT * from employee where username='$edit'";
-$result = mysqli_query($conn, $editEmp);
-$row = mysqli_fetch_assoc($result);
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,9 +5,9 @@ $row = mysqli_fetch_assoc($result);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhiệm vụ</title>
-    <link rel="stylesheet" type="text/css" href="./css/bar.css">
-    <link rel="stylesheet" type="text/css" href="./css/edit.css">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/bar.css    ">
+    <link rel="stylesheet" type="text/css" href="./css/index.css    ">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -30,16 +23,30 @@ $row = mysqli_fetch_assoc($result);
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+<?php
+require_once 'connection.php';
+$result_Emp = mysqli_query($conn, "SELECT COUNT(*) as count_Emp from employee");
+$result_MCP = mysqli_query($conn, "SELECT COUNT(*) as count_MCP from mcp");
+$result_Task1 = mysqli_query($conn, "SELECT COUNT(*) as count_Task1 from `task_collector-info`");
+$result_Task2 = mysqli_query($conn, "SELECT COUNT(*) as count_Task2 from `task_janitor`");
+$count_Emp = mysqli_fetch_array($result_Emp);
+$count_MCP = mysqli_fetch_array($result_MCP);
+$count_Task1 = mysqli_fetch_array($result_Task1);
+$count_Task2 = mysqli_fetch_array($result_Task2);
+$Emp = $count_Emp['count_Emp'];
+$MCP = $count_MCP['count_MCP'];
+$Task = $count_Task1['count_Task1'] + $count_Task2['count_Task2'];
+?>
 
 <body>
     <div id="container">
-    <div id="navBar">
+        <div id="navBar">
             <div class="logo">
                 <img src="./assets/img/logo.png" alt="logo">
                 <p class="title">UWC 2.0</p>
             </div>
             <ul class="navList">
-                <li class="main">
+                <li class="main select">
                     <i class="ti-book"></i>
                     <a href="index.php">
                         Trang chủ
@@ -52,7 +59,7 @@ $row = mysqli_fetch_assoc($result);
                     </a>
                 </li>
                 <li class="employee">
-                    <i class="ti-user select"></i>
+                    <i class="ti-user"></i>
                     <a href="employee.php?sort=username&search=&page=1">
                         Nhân viên
                     </a>
@@ -104,48 +111,36 @@ $row = mysqli_fetch_assoc($result);
             </ul>
         </div>
         <div id="content">
-            <form action="updateEmp.php" method="post">
-            <input type="hidden" value="<?php echo $edit?>" name="old_username" id="old_username">
-                <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <input class="form-control" id="username" name="username" value="<?php echo $row['username']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <input class="form-control" id="password" name="password" value="<?php echo $row['password']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="name">Tên</label>
-                    <input class="form-control" id="name" name="name" type="name" value="<?php echo $row['name']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="role">Trạng thái</label>
-                    <select name="status" id="status" class="form-control">
-                        <option value="assigned">assigned</option>
-                        <option value="unassigned">unassigned</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="role">Chức năng</label>
-                    <select name="role" id="role" class="form-control">
-                        <option value="collector">collector</option>
-                        <option value="janitor">janitor</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="phone_num">Số điện thoại</label>
-                    <input class="form-control" id="phone_num" name="phone_num" value="<?php echo $row['phone_num']; ?>">
-                </div>
-                <button onclick="return confirm('Bạn muốn lưu thay đổi?')"  type="submit" class="btn btn-primary">Submit</button>
-                <a href="employee.php?sort=username&search=" class="btn btn-danger">Cancel</a>
-        </div>
-        </form>
-    </div>
-    </div>
+            <div class="About">
 
+                <h3>Tổng quan</h3>
+                <div>
+                    <div class="alert alert-info">
+                        <h2><?= $Emp ?></h2>
+                        <strong>Nhân viên</strong>
+                    </div>
+                </div>
+                <div>
+                    <div class="alert alert-success">
+                        <h2><?= $MCP ?></h2>
+                        <strong>MCP</strong>
+                    </div>
+                </div>
+                <div>
+                    <div class="alert alert-warning">
+                        <h2><?= $Task ?></h2>
+                        <strong>Nhiệm vụ</strong>
+                    </div>
+                </div>
+            </div>
+            <div id="analyze">
+                <?php
+                include('chart.php');
+                ?>
+            </div>
+        </div>
+
+    </div>
 </body>
+
 </html>

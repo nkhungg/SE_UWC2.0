@@ -1,5 +1,14 @@
 <?php
 require_once 'connection.php';
+if (isset($_GET['page']) && $_GET['page'] !== "") {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+$record1page = 3;
+$previous = $page - 1;
+$next = $page + 1;
+$offset = ($page - 1) * $record1page;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +38,7 @@ require_once 'connection.php';
 
 <body>
     <div id="container">
-        <div id="navBar">
+    <div id="navBar">
             <div class="logo">
                 <img src="./assets/img/logo.png" alt="logo">
                 <p class="title">UWC 2.0</p>
@@ -43,13 +52,13 @@ require_once 'connection.php';
                 </li>
                 <li class="task">
                     <i class="ti-pencil-alt"></i>
-                    <a href="Task.php?sort=id&search=">
+                    <a href="Task.php?sort=id&search=&page=1">
                         Nhiệm vụ
                     </a>
                 </li>
                 <li class="employee select">
                     <i class="ti-user"></i>
-                    <a href="employee.php?sort=username&search=">
+                    <a href="employee.php?sort=username&search=&page=1">
                         Nhân viên
                     </a>
                 </li>
@@ -59,29 +68,30 @@ require_once 'connection.php';
                         Tin nhắn
                     </a>
                 </li>
+                <li class="message">
+                    <i class="ti-map"></i>
+                    <a href="manageMCP.php?sort=id&search=&page=1">
+                        MCP
+                    </a>
+                </li>
                 <li class="manage">
-                    <i class="ti-notepad"></i>
-                    <a href="manage.php">
-                        Quản lý
+                    <i class="ti-truck"></i>
+                    <a href="manageVehicle.php?sort=id&search=&page=1">
+                        Phương tiện
                     </a>
                 </li>
                 <li class="info">
-                    <i class="ti-id-badge"></i>
-                    <a href="info.php">
-                        Hồ sơ
-                    </a>
-                </li>
-                <li class="setting">
-                    <i class="ti-settings"></i>
-                    <a href="setting.php">
-                        Cài đặt
+                    <i class="bi bi-box-arrow-right"></i>
+                    <a href="logout.php">
+                        Đăng xuất
                     </a>
                 </li>
             </ul>
         </div>
         <div id="topbar">
             <div id="greeting">
-                <h2>Quản lý nhân viên</h2>
+                <h2>Chào buổi sáng</h2>
+                <h4>Hy vọng bạn có một ngày làm việc tốt lành</h4>
             </div>
             <ul class="topbar_list">
                 <li class="search">
@@ -95,9 +105,6 @@ require_once 'connection.php';
                 </li>
                 <li class="role">
                     <p class="role"><b>Quản trị viên</b></p>
-                </li>
-                <li class="logout">
-                    <i class="bi bi-box-arrow-right"></i>
                 </li>
             </ul>
         </div>
@@ -116,9 +123,9 @@ require_once 'connection.php';
                                                 } ?>>Chức năng</option>
                     </select>
                     <input type="text" class="form-control mb-2 mr-sm-2" name="search">
-                    <button type="submit" class="btn btn-primary mb-2">Sort</button>
+                    <button type="submit" class="btn btn-primary mb-2" name="page" value="<?= $page ?>">Sort</button>
                 </form>
-                <div class="button">
+                <div class=" button">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalEmp">
                         <i class="ti-plus" style="font-size:12px;padding:2px; font-weight:bold;"></i>
                     </button>
@@ -140,12 +147,17 @@ require_once 'connection.php';
                 <tbody>
                     <?php
                     $sort_option = $_GET['sort'];
-                    $query = "SELECT * from employee order by $sort_option";
+                    $query = "SELECT * from employee order by $sort_option limit $offset,$record1page";
+                    $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records from `employee`");
                     if (isset($_GET["search"]) && !empty($_GET["search"])) {
                         $sort_option = $_GET['sort'];
                         $str = $_GET['search'];
-                        $query = "SELECT * from employee where $sort_option REGEXP '$str+' order by $sort_option";
+                        $query = "SELECT * from employee where $sort_option REGEXP '$str+' order by $sort_option limit $offset,$record1page";
+                        $result_count = mysqli_query($conn, "SELECT COUNT(*) as total_records from (SELECT * from `employee` where $sort_option REGEXP '$str+') as a");
                     }
+                    $records = mysqli_fetch_array($result_count);
+                    $total_records = $records['total_records'];
+                    $total_page = ceil($total_records / $record1page);
                     $result = mysqli_query($conn, $query);
                     while ($r = mysqli_fetch_assoc($result)) {
                     ?>
@@ -167,7 +179,16 @@ require_once 'connection.php';
                     ?>
                 </tbody>
             </table>
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>"><a class="page-link" <?= ($page > 1) ? 'href=?page=' . $previous . '&sort=' . $sort_option . '&search=' . $_GET["search"] : ''; ?>>Previous</a></li>
 
+                <li class="page-item active"><a class="page-link"><?= $page ?></a></li>
+
+                <li class="page-item <?= ($page >= $total_page) ? 'disabled' : ''; ?>"><a class="page-link" <?= ($page < $total_page) ? 'href=?page=' . $next . '&sort=' . $sort_option . '&search=' . $_GET["search"] : ''; ?>>Next</a></li>
+            </ul>
+            <div>
+                <strong>Page <?php echo $page ?> of <?= $total_page ?></strong>
+            </div>
         </div>
         <!-- Tabs content -->
 

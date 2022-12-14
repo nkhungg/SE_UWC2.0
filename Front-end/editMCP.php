@@ -1,8 +1,8 @@
 <?php
-$edit = $_GET['username'];
+$edit = $_GET['ID'];
 require_once 'connection.php';
-$editEmp = "SELECT * from employee where username='$edit'";
-$result = mysqli_query($conn, $editEmp);
+$editMCP = "SELECT * from mcp where id='$edit'";
+$result = mysqli_query($conn, $editMCP);
 $row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
@@ -52,7 +52,7 @@ $row = mysqli_fetch_assoc($result);
                     </a>
                 </li>
                 <li class="employee">
-                    <i class="ti-user select"></i>
+                    <i class="ti-user"></i>
                     <a href="employee.php?sort=username&search=&page=1">
                         Nhân viên
                     </a>
@@ -63,7 +63,7 @@ $row = mysqli_fetch_assoc($result);
                         Tin nhắn
                     </a>
                 </li>
-                <li class="message">
+                <li class="message select">
                     <i class="ti-map"></i>
                     <a href="manageMCP.php?sort=id&search=&page=1">
                         MCP
@@ -104,48 +104,33 @@ $row = mysqli_fetch_assoc($result);
             </ul>
         </div>
         <div id="content">
-            <form action="updateEmp.php" method="post">
-            <input type="hidden" value="<?php echo $edit?>" name="old_username" id="old_username">
+            <form action="updateMCP.php" method="post">
+            <input type="hidden" value="<?php echo $edit?>" name="id" id="id">
                 <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <input class="form-control" id="username" name="username" value="<?php echo $row['username']; ?>">
+                    <label for="capacity">Sức chứa</label>
+                    <input class="form-control" id="capacity" name="capacity" value="<?php echo $row['capacity']; ?>">
                 </div>
                 <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <input class="form-control" id="password" name="password" value="<?php echo $row['password']; ?>">
+                    <label for="current">Lượng hiện tại</label>
+                    <input class="form-control" id="current" name="current" type="current" value="<?php echo $row['current']; ?>">
                 </div>
                 <div class="form-group">
-                    <label for="name">Tên</label>
-                    <input class="form-control" id="name" name="name" type="name" value="<?php echo $row['name']; ?>">
+                    <label for="location">Địa điểm</label>
+                    <input class="form-control" id="location" name="location" type="location" value="<?php echo $row['location']; ?>">
                 </div>
                 <div class="form-group">
-                    <label for="role">Trạng thái</label>
-                    <select name="status" id="status" class="form-control">
-                        <option value="assigned">assigned</option>
-                        <option value="unassigned">unassigned</option>
-                    </select>
+                    <label for="latitude">Vĩ độ</label>
+                    <input class="form-control" id="latitude" name="latitude" value="<?php echo $row['latitude']; ?>">
                 </div>
                 <div class="form-group">
-                    <label for="role">Chức năng</label>
-                    <select name="role" id="role" class="form-control">
-                        <option value="collector">collector</option>
-                        <option value="janitor">janitor</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="phone_num">Số điện thoại</label>
-                    <input class="form-control" id="phone_num" name="phone_num" value="<?php echo $row['phone_num']; ?>">
+                    <label for="longtitude">Kinh độ</label>
+                    <input class="form-control" id="longtitude" name="longtitude" value="<?php echo $row['longtitude']; ?>">
                 </div>
                 <button onclick="return confirm('Bạn muốn lưu thay đổi?')"  type="submit" class="btn btn-primary">Submit</button>
-                <a href="employee.php?sort=username&search=" class="btn btn-danger">Cancel</a>
+                <a href="manageMCP.php?sort=ID&search=" class="btn btn-danger">Cancel</a>
         </div>
         </form>
     </div>
     </div>
-
 </body>
 </html>
