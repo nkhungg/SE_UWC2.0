@@ -1,8 +1,8 @@
 <?php
 $edit = $_GET['ID'];
 require_once 'connection.php';
-$editTroller = "SELECT * from troller where troller_id='$edit'";
-$result = mysqli_query($conn, $editTroller);
+$editAssigned = "SELECT * from assign_vehicle where vehicle_id='$edit'";
+$result = mysqli_query($conn, $editAssigned);
 $row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ $row = mysqli_fetch_assoc($result);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troller</title>
+    <title>Nhiệm vụ</title>
     <link rel="stylesheet" type="text/css" href="./css/bar.css">
     <link rel="stylesheet" type="text/css" href="./css/edit.css">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
@@ -33,7 +33,7 @@ $row = mysqli_fetch_assoc($result);
 
 <body>
     <div id="container">
-    <div id="navBar">
+        <div id="navBar">
             <div class="logo">
                 <img src="./assets/img/logo.png" alt="logo">
                 <p class="title">UWC 2.0</p>
@@ -104,43 +104,39 @@ $row = mysqli_fetch_assoc($result);
             </ul>
         </div>
         <div id="content">
-            <form action="updateTroller.php" method="post">
-                <input type="hidden" value="<?php echo $edit ?>" name="id" id="id">
+        <h3 class="title">ID phương tiện: <?php echo $edit;?></h3>
+            <form action="updateAssigned.php" method="post">
                 <div class="form-group">
-                    <label for="area">Khu vực</label>
-                    <input class="form-control" id="area" name="area" value="<?php echo $row['area']; ?>">
-                </div>
-                <div class="form-group">
-                    <label for="state">Người điều khiển</label>
-                    <div class="form-group">
-                        <div class="container">
-                            <div class="form-group">
-                                <select name="empName" id="empName" class="post form-control">
-                                    <?php
-                                    $sql = "SELECT username from employee where employee.role = 'janitor'";
-                                    $i = 0;
-                                    $empList = array();
-                                    if ($result = mysqli_query($conn, $sql)) {
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            $empList[] = $row['username'];
-                                            echo $empList[$i];
-                                    ?>
-                                            <option><?php echo $empList[$i]; ?></option>
-                                    <?php
-                                            $i++;
-                                        }
+                    <label for="emp_name">Người điều khiển</label>
+                    <div class="container">
+                        <div class="form-group">
+                            <select name="emp_name" id="emp_name" class="post form-control">
+                                <?php
+                                $sql = "SELECT * FROM select * from employee where employee.username not in (select emp_username from assign_vehicle)";
+                                $i = 0;
+                                $empList = array();
+                                if ($result = mysqli_query($conn, $sql)) {
+                                    while ($row = mysqli_fetch_array($result)) {
+                                        $empList[] = $row['username'];
+                                        echo $empList[$i];
+                                ?>
+                                        <option><?php echo $empList[$i]; ?></option>
+                                <?php
+                                        $i++;
                                     }
-                                    ?>
-                                </select>
-                            </div>
+                                }
+                                ?>
+                            </select>
                         </div>
                     </div>
-                    <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
-                    <a href="manageVehicle.php?sort=ID&search=" class="btn btn-danger">Cancel</a>
                 </div>
-            </form>
+                <button onclick="return confirm('Bạn muốn lưu thay đổi?')" type="submit" class="btn btn-primary">Submit</button>
+                <a href="manageVehicle.php?sort=id&search=&page=1" class="btn btn-danger">Cancel</a>
         </div>
+        </form>
     </div>
+    </div>
+
 </body>
 
 </html>

@@ -12,7 +12,7 @@ $row = mysqli_fetch_assoc($result);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhiệm vụ</title>
+    <title>Chỉnh sửa nhân viên</title>
     <link rel="stylesheet" type="text/css" href="./css/bar.css">
     <link rel="stylesheet" type="text/css" href="./css/edit.css">
     <link rel="stylesheet" type="text/css" href="./assets/font_icon/themify-icons-font/themify-icons/themify-icons.css">
@@ -51,8 +51,8 @@ $row = mysqli_fetch_assoc($result);
                         Nhiệm vụ
                     </a>
                 </li>
-                <li class="employee">
-                    <i class="ti-user select"></i>
+                <li class="employee select">
+                    <i class="ti-user"></i>
                     <a href="employee.php?sort=username&search=&page=1">
                         Nhân viên
                     </a>

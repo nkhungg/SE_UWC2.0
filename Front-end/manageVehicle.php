@@ -216,7 +216,6 @@ require_once 'connection.php';
                                     <td><?php echo $r['vehicle_id']; ?></td>
                                     <td><?php echo $r['emp_username']; ?></td>
                                     <td>
-                                        <a name="ID" href="editAssigned.php?ID=<?php echo $r['vehicle_id']; ?>" class="btn btn-primary">Sửa</a>
                                         <a name="ID" href="deleteAssigned.php?ID=<?php echo $r['vehicle_id']; ?>" onclick="return confirm('Bạn có muốn xóa troller này?')" class="btn btn-danger">Xóa</a>
                                     </td>
                                 </tr>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCP mới</title>
+    <title>TaskJanitor</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <!-- jQuery library -->
@@ -21,16 +21,17 @@ include "connection.php";
 
 <body>
     <?php
-    $capacity = $_POST['capacity'];
-    $current = $_POST['current'];
-    $location = $_POST['location'];
-    $latitude = $_POST['latitude'];
-    $longtitude = $_POST['longtitude'];
-    if ($current/$capacity>=0.95) $status='full';
-    else $status='available';
-    $query1 = "INSERT INTO `mcp` (`capacity`, `current`, `status`,`location`, `latitude`, `longtitude`) VALUES ('$capacity', '$current', '$status', '$location', '$latitude', '$longtitude')";
-    if (mysqli_query($conn, $query1)) echo '<script>alert("Thêm MCP thành công!")</script>';
-    header('location: manageMCP.php?sort=id&search=');
+    $id = $_POST['id'];
+    $fuel = $_POST['fuel'];
+    $empName = $_POST['empName'];
+    $sql="INSERT into vehicle values ('$id', 'truck')";
+    mysqli_query($conn, $sql);
+    $sql="INSERT into truck values ('$id', '$fuel')";
+    mysqli_query($conn, $sql);
+    $sql="INSERT into assign_vehicle values ('$empName', '$id')";
+    mysqli_query($conn, $sql);
+    echo '<script>alert("Thêm troller thành công!")</script>';
+    header('location: manageVehicle.php?sort=id&search=&page=1');
     ?>
 </body>
 
