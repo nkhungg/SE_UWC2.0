@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2022 at 09:12 PM
+-- Generation Time: Dec 15, 2022 at 04:40 AM
 -- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,10 +37,9 @@ CREATE TABLE `assign_vehicle` (
 --
 
 INSERT INTO `assign_vehicle` (`emp_username`, `vehicle_id`) VALUES
-('baotien', '1001'),
-('hoainam', '2001'),
 ('hoangluong', '2003'),
-('khanhhung', '2004'),
+('huy', '2001'),
+('minhquan', '1001'),
 ('trantien', '1003');
 
 -- --------------------------------------------------------
@@ -256,8 +255,7 @@ INSERT INTO `troller` (`troller_id`, `area`) VALUES
 ('2001', 'Quan Thu Duc'),
 ('2002', 'Quan 2'),
 ('2003', 'Quan 9'),
-('2004', 'Quan 1'),
-('2005', 'Quan 10');
+('2004', 'Quan 1');
 
 -- --------------------------------------------------------
 
@@ -278,7 +276,7 @@ INSERT INTO `truck` (`truck_id`, `fuel`) VALUES
 ('1001', 80),
 ('1002', 70),
 ('1003', 70),
-('1004', 85);
+('1004', 90);
 
 -- --------------------------------------------------------
 
@@ -288,24 +286,22 @@ INSERT INTO `truck` (`truck_id`, `fuel`) VALUES
 
 CREATE TABLE `vehicle` (
   `id` varchar(50) NOT NULL,
-  `type` enum('truck','troller') DEFAULT NULL,
-  `status` enum('unassigned','assigned') DEFAULT 'unassigned'
+  `type` enum('truck','troller') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`id`, `type`, `status`) VALUES
-('1001', 'truck', 'unassigned'),
-('1002', 'truck', 'unassigned'),
-('1003', 'truck', 'unassigned'),
-('1004', 'truck', 'unassigned'),
-('2001', 'troller', 'unassigned'),
-('2002', 'troller', 'unassigned'),
-('2003', 'troller', 'unassigned'),
-('2004', 'troller', 'unassigned'),
-('2005', 'troller', 'unassigned');
+INSERT INTO `vehicle` (`id`, `type`) VALUES
+('1001', 'truck'),
+('1002', 'truck'),
+('1003', 'truck'),
+('1004', 'truck'),
+('2001', 'troller'),
+('2002', 'troller'),
+('2003', 'troller'),
+('2004', 'troller');
 
 --
 -- Indexes for dumped tables
